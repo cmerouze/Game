@@ -3,123 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reconstituer une phrase</title>
+    <title>Exercice de validation de texte</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+
+        .container {
             text-align: center;
             margin-top: 50px;
         }
 
-        .dropzone {
-            width: 200px;
-            height: 100px;
-            border: 2px dashed #ccc;
-            margin: 20px;
+        input[type="text"] {
             padding: 10px;
-            display: inline-block;
-            vertical-align: top;
+            font-size: 16px;
+            width: 250px;
+            margin-top: 20px;
         }
-
-        .draggable {
-            width: 100px;
-            height: 50px;
-            margin: 10px;
-            background-color: lightblue;
-            border: 1px solid #007bff;
-            cursor: pointer;
-            display: inline-block;
-            vertical-align: top;
-            padding: 10px;
-        }
-
+// a personaliser
         button {
-            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
         }
 
-        p {
-            margin: 0;
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
         }
     </style>
 </head>
 <body>
-    <h1>Reconstituez la phrase correcte !</h1>
+//Changer ici
+    <div class="container">
+        <h2>Ecris !</h2>
+        <p>"Je ne suis pas " </p>
+        <input type="text" id="userInput" placeholder="Entrez votre réponse">
+        <br>
+        <button onclick="validateAnswer()">Valider</button>
 
-    <!-- Zones de dépôt pour la phrase -->
-    <div id="dropzone1" class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <p>Placez ici le premier mot</p>
+        <p id="message"></p>
     </div>
-    <div id="dropzone2" class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <p>Placez ici le deuxième mot</p>
-    </div>
-    <div id="dropzone3" class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <p>Placez ici le troisième mot</p>
-    </div>
-
-    <!-- Eléments à glisser avec boutons pour écouter l'audio -->
-    <div id="element1" class="draggable" draggable="true" ondragstart="drag(event)">
-        <p>Élément 1</p>
-        <button onclick="playAudio('audio1')">Écouter</button>
-        <audio id="audio1" src="mot1.mp3"></audio>
-    </div>
-    <div id="element2" class="draggable" draggable="true" ondragstart="drag(event)">
-        <p>Élément 2</p>
-        <button onclick="playAudio('audio2')">Écouter</button>
-        <audio id="audio2" src="mot2.mp3"></audio>
-    </div>
-    <div id="element3" class="draggable" draggable="true" ondragstart="drag(event)">
-        <p>Élément 3</p>
-        <button onclick="playAudio('audio3')">Écouter</button>
-        <audio id="audio3" src="mot3.mp3"></audio>
-    </div>
-
-    <!-- Audio de validation -->
-    <audio id="audioCorrect" src="correct.mp3"></audio>
-    <audio id="audioWrong" src="wrong.mp3"></audio>
 
     <script>
-        function drag(event) {
-            event.dataTransfer.setData("text", event.target.id);
-        }
+        function validateAnswer() {
+            const userInput = document.getElementById("userInput").value.trim();
+            const messageElement = document.getElementById("message");
 
-        function allowDrop(event) {
-            event.preventDefault();
-        }
+            // Changer ici
+            const correctAnswer = "Je ne suis pas";
 
-        function drop(event) {
-            event.preventDefault();
-            var data = event.dataTransfer.getData("text");
-            var draggedElement = document.getElementById(data);
-
-            // Vérification des bons mots
-            if (event.target.id === "dropzone1" && draggedElement.id === "element1") {
-                event.target.appendChild(draggedElement);
-                playAudio(true);
-            } else if (event.target.id === "dropzone2" && draggedElement.id === "element2") {
-                event.target.appendChild(draggedElement);
-                playAudio(true);
-            } else if (event.target.id === "dropzone3" && draggedElement.id === "element3") {
-                event.target.appendChild(draggedElement);
-                playAudio(true);
+            if (userInput === correctAnswer) {
+                messageElement.textContent = "Bonne réponse !";
+                messageElement.className = "correct";
             } else {
-                playAudio(false);
+                messageElement.textContent = "Réponse incorrecte.";
+                messageElement.className = "incorrect";
             }
-        }
 
-        // Fonction pour jouer l'audio (correct ou incorrect)
-        function playAudio(isCorrect) {
-            if (isCorrect) {
-                document.getElementById('audioCorrect').play();
-            } else {
-                document.getElementById('audioWrong').play();
-            }
-        }
-
-        // Fonction pour jouer l'audio d'un élément
-        function playAudio(elementId) {
-            var audio = document.getElementById(elementId);
-            audio.play();
+            // Efface le champ de texte après chaque validation
+            document.getElementById("userInput").value = "";
         }
     </script>
+
 </body>
 </html>
